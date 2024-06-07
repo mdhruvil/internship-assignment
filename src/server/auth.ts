@@ -25,10 +25,11 @@ import {
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      id: string;
+      // id: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
+    accessToken: string | undefined;
   }
 
   // interface User {
@@ -37,6 +38,21 @@ declare module "next-auth" {
   // }
 }
 
+const scopes = [
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/userinfo.profile",
+  "https://mail.google.com/",
+  "https://www.googleapis.com/auth/gmail.modify",
+  "https://www.googleapis.com/auth/gmail.readonly",
+  "https://www.googleapis.com/auth/gmail.metadata",
+];
+
+const authorizationUrl = new URL(
+  "https://accounts.google.com/o/oauth2/v2/auth",
+);
+authorizationUrl.searchParams.set("prompt", "consent");
+authorizationUrl.searchParams.set("access_type", "offline");
+authorizationUrl.searchParams.set("response_type", "code");
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -44,13 +60,22 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, token }) => {
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+        },
+        accessToken: token.accessToken,
+      };
+    },
+    jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
   },
   adapter: DrizzleAdapter(db, {
     usersTable: users,
@@ -62,6 +87,14 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+          scope: scopes.join(" "),
+        },
+      },
     }),
     /**
      * ...add more providers here.
@@ -73,6 +106,9 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  session: {
+    strategy: "jwt",
+  },
 };
 
 /**
