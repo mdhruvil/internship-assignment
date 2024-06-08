@@ -11,11 +11,14 @@ export default async function HomePage() {
   }
   // const gmail = new Gmail(env.GOOGLE_ACCESS_KEY, session.accessToken);
 
-  // const messages= await gmail.getLastMessages(50)
+  // const messages= await gmail.getLastMessages(5)
+
   return (
-   <div>
-    {JSON.stringify(session)}
-    {/* {JSON.stringify(messages)} */}
-   </div>
+    <div>
+      {JSON.stringify(session)}
+      <br />
+      <br />
+      <br />
+    </div>
   );
 }

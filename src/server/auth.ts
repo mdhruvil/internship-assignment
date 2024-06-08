@@ -15,6 +15,7 @@ import {
   users,
   verificationTokens,
 } from "@/server/db/schema";
+import { redirect } from "next/navigation";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -44,7 +45,6 @@ const scopes = [
   "https://mail.google.com/",
   "https://www.googleapis.com/auth/gmail.modify",
   "https://www.googleapis.com/auth/gmail.readonly",
-  "https://www.googleapis.com/auth/gmail.metadata",
 ];
 
 const authorizationUrl = new URL(
@@ -117,3 +117,11 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  */
 export const getServerAuthSession = () => getServerSession(authOptions);
+
+export async function checkAuthOrRedirect(){
+  const session = await getServerAuthSession();
+  if (!session) {
+    throw redirect("/")
+  }
+  return session
+} 
