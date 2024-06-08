@@ -2,15 +2,20 @@ import { Hono } from "hono";
 import { getServerAuthSession } from "../auth";
 import type { Session } from "next-auth";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
-import { Gmail } from "@/lib/gmail";
+import { ZodError, z } from "zod";
+import { ExtractedMessage, Gmail } from "@/lib/gmail";
 import { env } from "@/env";
+import { error } from "console";
 
 type Variables = {
   session: Session;
 };
 
 export const app = new Hono<{ Variables: Variables }>().basePath("/api/v1");
+
+app.onError((err, c) => {
+  return c.json({ error: err.message, data: null }, 500);
+});
 
 app.use(async (c, next) => {
   const session = await getServerAuthSession();
@@ -26,8 +31,8 @@ app.use(async (c, next) => {
   await next();
 });
 
-app.get(
-  "/emails",
+const emailRouter = new Hono<{ Variables: Variables }>().get(
+  "/",
   zValidator(
     "query",
     z.object({
@@ -41,6 +46,13 @@ app.get(
     const gmail = new Gmail(env.GOOGLE_ACCESS_KEY, session.accessToken!);
     const emails = await gmail.getLastMessages(numberOfMessages);
 
-    return c.json({ emails });
+    if (emails instanceof ZodError) {
+      return c.json({ error: emails.message, data: [] }, 500);
+    } else {
+      return c.json({ data: emails as ExtractedMessage[], error: null }, 200);
+    }
   },
 );
+
+const router = app.route("/emails", emailRouter);
+export type AppType = typeof router;
