@@ -7,6 +7,8 @@ const extractedMessageSchema = z.object({
   snippet: z.string(),
   bodyText: z.string().optional(),
   bodyHtml: z.string().optional(),
+  id: z.string(),
+  labelIds: z.array(z.string()),
 });
 
 export class Gmail {
@@ -55,7 +57,7 @@ export class Gmail {
       
       
 
-    if (message.payload.body) {
+    if (message.payload.body.size > 0) {
       const contentType = message.payload.mimeType;
       if (contentType.includes("text/plain")) {
         bodyText = Buffer.from(message.payload.body.data || "", "base64").toString("utf-8");
@@ -79,6 +81,8 @@ export class Gmail {
       bodyText,
       bodyHtml,
       snippet: message.snippet,
+      id: message.id,
+      labelIds: message.labelIds,
     };
 
     const { success, data, error } = extractedMessageSchema.safeParse(messageData);
@@ -106,6 +110,9 @@ export class Gmail {
       Authorization: "Bearer " + this.accessToken,
     };
     const reponse = await fetch(url, { headers });
+    if (!reponse.ok) {
+      throw new Error(`${reponse.status} ${reponse.statusText}`);
+    }
     return reponse.json() as T;
   }
 }
@@ -146,4 +153,4 @@ interface Header {
   value: string;
 }
 
-type ExtractedMessage = z.infer<typeof extractedMessageSchema>;
+export type ExtractedMessage = z.infer<typeof extractedMessageSchema>;
