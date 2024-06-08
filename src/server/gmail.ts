@@ -14,6 +14,7 @@ export class Gmail {
     return response.messages
   }
 
+
   private getApiUrl(path: string) {
     const url = new URL(this.BASE_URL + path);
     url.searchParams.append("key", this.apiKey);

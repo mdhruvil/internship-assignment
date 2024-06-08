@@ -1,6 +1,4 @@
-import { env } from "@/env";
 import { getServerAuthSession } from "@/server/auth";
-import { Gmail } from "@/server/gmail";
 
 export default async function HomePage() {
   const session = await getServerAuthSession();
@@ -11,13 +9,13 @@ export default async function HomePage() {
   if (!session.accessToken) {
     return <div>No access token</div>;
   }
-  const gmail = new Gmail(env.GOOGLE_ACCESS_KEY, session.accessToken);
+  // const gmail = new Gmail(env.GOOGLE_ACCESS_KEY, session.accessToken);
 
-  const messages= await gmail.getLastMessages(50)
+  // const messages= await gmail.getLastMessages(50)
   return (
    <div>
-    
-    {JSON.stringify(messages)}
+    {JSON.stringify(session)}
+    {/* {JSON.stringify(messages)} */}
    </div>
   );
 }
