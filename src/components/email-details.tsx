@@ -49,8 +49,7 @@ export function EmailDetailsCard({ id }: { id: string }) {
   return (
     <>
       {email && (
-        
-        <div className="md:[50vw] w-[90vw] overflow-y-scroll sm:max-w-5xl mx-auto">
+        <div className="md:[50vw] mx-auto w-[90vw] overflow-y-scroll sm:max-w-5xl">
           <CardHeader>
             <CardTitle>{email.subject}</CardTitle>
             <CardDescription>

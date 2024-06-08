@@ -18,6 +18,8 @@ export function saveMailsInLocalStorage(emails: ExtractedMessage[]) {
 }
 
 export function getMailFromId(id: string): ExtractedMessage | undefined {
-  const emails = JSON.parse(localStorage.getItem("emails") ?? "[]") as ExtractedMessage[];
+  const emails = JSON.parse(
+    localStorage.getItem("emails") ?? "[]",
+  ) as ExtractedMessage[];
   return emails.find((email) => email.id === id);
 }

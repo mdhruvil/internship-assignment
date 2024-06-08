@@ -9,7 +9,6 @@ export default async function Emails() {
   const session = await checkAuthOrRedirect();
   return (
     <div className="container mx-auto mt-10 max-w-5xl">
-      
       <div className="flex flex-wrap items-center justify-between gap-5">
         <div className="flex items-center gap-4">
           <Avatar>

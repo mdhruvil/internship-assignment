@@ -19,7 +19,6 @@ export function EmailList() {
   const [numberOfEmails, setNumberOfEmails] = useState("10");
   const { data, isValidating, isLoading, error, mutate } = useEmails({
     query: { numberOfMessages: numberOfEmails },
-    
   });
 
   async function onSelectChange(value: string) {
@@ -28,7 +27,6 @@ export function EmailList() {
     });
     await mutate();
   }
-
 
   return (
     <div>
@@ -62,7 +60,7 @@ export function EmailList() {
       {data && !isValidating && !isLoading ? (
         <div className="space-y-5">
           {data.data.map((email) => (
-              <EmailCard key={email.id} email={email} />
+            <EmailCard key={email.id} email={email} />
           ))}
         </div>
       ) : null}

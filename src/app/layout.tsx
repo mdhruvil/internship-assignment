@@ -14,7 +14,7 @@ export default function RootLayout({
   sheet,
 }: {
   children: React.ReactNode;
-  sheet: React.ReactNode
+  sheet: React.ReactNode;
 }) {
   return (
     <html lang="en" className={`${GeistSans.className}`}>
