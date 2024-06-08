@@ -1,7 +1,8 @@
 # Assignment for slidesai.io internship
 
-NOTE: please read your twitter(X) dm. My profile is https://x.com/mdhruvill 
+NOTE: please read your twitter(X) dm.  My profile is https://x.com/mdhruvill  
 
+DEMO: [https://github.com/mdhruvil/slides-ai-assignment/blob/main/demo.webm](https://github.com/mdhruvil/slides-ai-assignment/blob/main/demo.webm)
 
 TODO:
 
