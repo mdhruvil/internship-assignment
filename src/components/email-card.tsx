@@ -1,10 +1,18 @@
+"use client";
+
 import type { ExtractedMessage } from "@/lib/gmail";
 import { formatDistanceToNow } from "date-fns";
 import { Badge } from "./ui/badge";
+import { useRouter } from "next/navigation";
 
 export function EmailCard({ email }: { email: ExtractedMessage }) {
+  const router = useRouter();
+
+  function clickHandler() {
+    router.push(`/emails/${email.id}`);
+  }
   return (
-    <button className="flex w-full flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent">
+    <button className="flex w-full flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent" onClick={clickHandler}>
       <div className="flex w-full flex-col gap-1">
         <div>
           <div>

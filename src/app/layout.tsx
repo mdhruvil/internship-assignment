@@ -11,8 +11,10 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  sheet,
 }: {
   children: React.ReactNode;
+  sheet: React.ReactNode
 }) {
   return (
     <html lang="en" className={`${GeistSans.className}`}>
@@ -23,6 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {sheet}
           {children}
         </ThemeProvider>
       </body>

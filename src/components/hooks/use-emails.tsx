@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { saveMailsInLocalStorage } from "@/lib/utils";
 import type { InferRequestType, InferResponseType } from "hono";
 import useSWR from "swr";
 
@@ -16,6 +17,9 @@ export function useEmails(req: InferRequestType<typeof api.v1.emails.$get>) {
     },
     {
       revalidateOnFocus: false,
+      onSuccess(data) {
+        saveMailsInLocalStorage(data.data);
+      },
     },
   );
 }
