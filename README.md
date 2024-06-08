@@ -1,5 +1,8 @@
 # Assignment for slidesai.io internship
 
+NOTE: please read your twitter(X) dm. My profile is https://x.com/mdhruvill 
+
+
 TODO:
 
 - [x] Make a basic ui (shadcn ui)
@@ -7,6 +10,14 @@ TODO:
 - [ ] Classify them with OpenAI
 - [x] Display the result
 - [x] Make route to display email (parellel routing)
+
+## Tech stack
+- [Next.js](https://nextjs.org/)
+- [Hono](https://hono.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://github.com/shadcn/ui)
+- [Typescript](https://www.typescriptlang.org/)
+- [pnpm](https://pnpm.io/)
 
 
 ## folder structure
