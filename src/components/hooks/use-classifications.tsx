@@ -19,5 +19,16 @@ export const useClassifications = () => {
   return useSWRMutation<InferResponseType<typeof api.v1.classify.$post>, Error>(
     "/api/v1/classify",
     fetcher,
+    {
+      onSuccess(data) {
+        const classifications = data.messages.map(m => {
+          return {
+            id: m.id,
+            ...m.classification,
+          }
+        })
+        localStorage.setItem("classifications", JSON.stringify(classifications));
+      },
+    }
   );
 };

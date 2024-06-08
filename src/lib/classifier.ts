@@ -1,19 +1,9 @@
-import { OpenAI } from "openai";
-import type { ExtractedMessage } from "./gmail";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
+import type { ExtractedMessage } from "./gmail";
 
 const validClassificaionSchema = z.object({
-  classification: z.enum([
-    "IMPORTANT",
-    "PROMOTION",
-    "SOCIAL",
-    "MARKETING",
-    "NEWSLETTER",
-    "BILLING",
-    "LEGAL_UPDATE",
-    "SPAM",
-    "GENERAL",
-  ]),
+  classification: z.string(),
   confidence: z.number().min(0).max(1),
   reason: z.string(),
 });
@@ -21,48 +11,42 @@ const validClassificaionSchema = z.object({
 export type Classification = z.infer<typeof validClassificaionSchema>;
 
 export class Classifier {
-  private openai: OpenAI;
+  private genAi: GoogleGenerativeAI;
 
   constructor(private apiKey: string) {
-    this.openai = new OpenAI({ apiKey });
-  }
-
-  private async openAICompletion(
-    messages: OpenAI.ChatCompletionMessageParam[],
-  ) {
-    console.log(messages);
-    return this.openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages,
-      temperature: 0,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-      response_format: {
-        type: "json_object",
-      },
-    });
+    this.genAi = new GoogleGenerativeAI(apiKey);
   }
 
   async classify(message: ExtractedMessage) {
-    const prompt = this.getPromptFromMessage(message);
-    const response = await this.openAICompletion([
-      {
-        role: "system",
-        content: "You are assistant that helps classify emails.",
-      },
-      { role: "user", content: prompt.trim() },
-    ]);
-    console.log(response);
-    const classification = response.choices[0]?.message.content;
-    if (!classification) {
+    const model = this.genAi.getGenerativeModel({
+      model: "gemini-1.5-flash",
+    });
+
+    const generationConfig = {
+      temperature: 0,
+      topP: 0.95,
+      topK: 64,
+      maxOutputTokens: 8192,
+      responseMimeType: "application/json",
+    };
+
+    const chatSession = model.startChat({
+      generationConfig,
+    });
+
+    const result = await chatSession.sendMessage(
+      this.getPromptFromMessage(message),
+    );
+
+    const response = JSON.parse(result.response.text()) as unknown;
+
+    const { success, data, error } =
+      validClassificaionSchema.safeParse(response);
+    if (!success) {
+      console.log(error);
       return null;
     }
-    const parsed = validClassificaionSchema.safeParse(classification);
-    if (!parsed.success) {
-      console.log(parsed.error);
-      return null;
-    }
-    return parsed.data;
+    return data;
   }
 
   private getPromptFromMessage(message: ExtractedMessage) {

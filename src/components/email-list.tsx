@@ -20,7 +20,7 @@ import {
 } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-const EMAIL_NUMBERS = ["2", "5", "10", "15", "20", "25"];
+const EMAIL_NUMBERS = ["2", "5", "10", "15"];
 
 export function EmailList() {
   const [numberOfEmails, setNumberOfEmails] = useState("5");
@@ -28,7 +28,7 @@ export function EmailList() {
   const { data, isValidating, isLoading, error, mutate } = useEmails({
     query: { numberOfMessages: numberOfEmails },
   });
-  const { trigger } = useClassifications();
+  const { trigger, isMutating } = useClassifications();
   const router = useRouter();
 
   async function onSelectChange(value: string) {
@@ -55,7 +55,7 @@ export function EmailList() {
 
   return (
     <div>
-      <div className="pb-5">
+      <div className="pb-5 flex justify-between flex-wrap gap-3">
         <Select onValueChange={onSelectChange} value={numberOfEmails}>
           <SelectTrigger className="max-w-[150px]">
             <SelectValue placeholder={numberOfEmails} />
@@ -70,7 +70,7 @@ export function EmailList() {
             })}
           </SelectContent>
         </Select>
-        <Button onClick={triggerClassify}>Classify</Button>
+        <Button onClick={triggerClassify} loading={isMutating}>Classify</Button>
       </div>
 
       {isLoading || isValidating ? (

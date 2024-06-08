@@ -26,10 +26,10 @@ export default async function Emails() {
         </div>
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <SignOutBtn />
+          <SignOutBtn variant="outline" />
         </div>
       </div>
-      <div className="mt-10">
+      <div className="my-10">
         <EmailList />
       </div>
     </div>

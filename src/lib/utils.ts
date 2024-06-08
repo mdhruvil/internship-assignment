@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ExtractedMessage } from "./gmail";
+import { Classification } from "./classifier";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,7 +19,9 @@ export function saveMailsInLocalStorage(emails: ExtractedMessage[]) {
 }
 
 export function getMailsFromLocalStorage(): ExtractedMessage[] {
-  return JSON.parse(localStorage.getItem("emails") ?? "[]") as ExtractedMessage[];
+  return JSON.parse(
+    localStorage.getItem("emails") ?? "[]",
+  ) as ExtractedMessage[];
 }
 export function getApiKeyFromLocalStorage() {
   return localStorage.getItem("apiKey");
@@ -29,4 +32,13 @@ export function getMailFromId(id: string): ExtractedMessage | undefined {
     localStorage.getItem("emails") ?? "[]",
   ) as ExtractedMessage[];
   return emails.find((email) => email.id === id);
+}
+
+export function getClassificationFromId(
+  id: string,
+): Classification | undefined {
+  const classifications = JSON.parse(
+    localStorage.getItem("classifications") ?? "[]",
+  ) as Classification[];
+  return classifications.find((classification) => classification.id === id);
 }

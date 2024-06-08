@@ -9,7 +9,7 @@ import { Hono } from "hono";
 import type { Session } from "next-auth";
 import { ZodError, z } from "zod";
 import { getServerAuthSession } from "../auth";
-import { Classifier } from "@/lib/openai";
+import { Classifier } from "@/lib/classifier";
 
 type Variables = {
   session: Session;
@@ -68,18 +68,18 @@ const classifierRouter = new Hono<{ Variables: Variables }>().post(
     }),
   ),
   async (c) => {
-    const { messages,apiKey } = c.req.valid("json");
+    const { messages, apiKey } = c.req.valid("json");
     const classifier = new Classifier(apiKey);
     const classifications = await Promise.all(
       messages.map((m) => classifier.classify(m)),
     );
     console.log(classifications);
-    const classificationWithMessages = messages.map((m, i) => ({
+    const messagesWithClassifications = messages.map((m, i) => ({
       ...m,
       classification: classifications[i],
     }));
-    return c.json({ data: classificationWithMessages, error: null }, 200);
-  }
+    return c.json({ messages: messagesWithClassifications, error: null }, 200);
+  },
 );
 
 const router = app

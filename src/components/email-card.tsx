@@ -1,12 +1,15 @@
 "use client";
 
 import type { ExtractedMessage } from "@/lib/gmail";
+import { getClassificationFromId } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
-import { Badge } from "./ui/badge";
 import { useRouter } from "next/navigation";
+import { Badge } from "./ui/badge";
+import InfoButton from "./ui/info-button";
 
 export function EmailCard({ email }: { email: ExtractedMessage }) {
   const router = useRouter();
+  const classification = getClassificationFromId(email.id);
 
   function clickHandler() {
     router.push(`/emails/${email.id}`);
@@ -34,13 +37,11 @@ export function EmailCard({ email }: { email: ExtractedMessage }) {
       <div className="line-clamp-2 text-xs text-muted-foreground">
         {email.snippet}
       </div>
-      {email.labelIds.length ? (
+      {classification ? (
         <div className="flex flex-wrap items-center gap-2">
-          {email.labelIds.map((label) => (
-            <Badge key={label} variant="outline">
-              {label}
-            </Badge>
-          ))}
+          <Badge>{classification.classification}</Badge>
+          <Badge variant="outline">{classification.confidence} / 1.0</Badge>
+          <InfoButton content={classification.reason} />
         </div>
       ) : null}
     </button>

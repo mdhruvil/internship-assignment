@@ -30,7 +30,10 @@ export function EmailDetails({ id }: { id: string }) {
               </div>
               <div className="mt-5 h-full">
                 {email.bodyHtml && (
-                  <div dangerouslySetInnerHTML={{ __html: email.bodyHtml }} />
+                  <iframe
+                    srcDoc={email.bodyHtml}
+                    className="h-[80vh] w-full"
+                  ></iframe>
                 )}
               </div>
             </SheetDescription>
@@ -61,7 +64,10 @@ export function EmailDetailsCard({ id }: { id: string }) {
               </div>
               <div className="mt-5 h-full">
                 {email.bodyHtml && (
-                  <div dangerouslySetInnerHTML={{ __html: email.bodyHtml }} />
+                  <iframe
+                    srcDoc={email.bodyHtml}
+                    className="h-[80vh] w-full"
+                  ></iframe>
                 )}
               </div>
             </CardDescription>

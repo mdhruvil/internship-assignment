@@ -1,4 +1,4 @@
-import { OpenAIKeyInput } from "@/components/open-ai-key-input";
+import { GeminiKeyInput } from "@/components/gemini-key-input";
 import { SignInBtn } from "@/components/sign-in-btn";
 import { SignOutBtn } from "@/components/sign-out-btn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -44,14 +44,14 @@ export default async function Page() {
       </div>
       <Card className="mx-auto mt-5 max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">OpenAI Key</CardTitle>
+          <CardTitle className="text-2xl">Gemini Key</CardTitle>
           <CardDescription>
             Your key is not saved in database. It is only stored in your
             browser.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <OpenAIKeyInput />
+          <GeminiKeyInput />
         </CardContent>
       </Card>
     </div>
