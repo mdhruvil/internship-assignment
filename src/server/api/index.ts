@@ -1,11 +1,10 @@
-import { Hono } from "hono";
-import { getServerAuthSession } from "../auth";
-import type { Session } from "next-auth";
-import { zValidator } from "@hono/zod-validator";
-import { ZodError, z } from "zod";
-import { ExtractedMessage, Gmail } from "@/lib/gmail";
 import { env } from "@/env";
-import { error } from "console";
+import { type ExtractedMessage, Gmail } from "@/lib/gmail";
+import { zValidator } from "@hono/zod-validator";
+import { Hono } from "hono";
+import type { Session } from "next-auth";
+import { ZodError, z } from "zod";
+import { getServerAuthSession } from "../auth";
 
 type Variables = {
   session: Session;

@@ -1,34 +1,67 @@
-import { env } from "@/env";
-import { Gmail } from "@/lib/gmail";
+import { SignInBtn } from "@/components/sign-in-btn";
+import { SignOutBtn } from "@/components/sign-out-btn";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { generateInitials } from "@/lib/utils";
 import { getServerAuthSession } from "@/server/auth";
-import { ZodError } from "zod";
 
-export default async function HomePage() {
+export default async function Page() {
   const session = await getServerAuthSession();
-  if (!session) {
-    return <div>You are not logged in</div>;
-  }
-
-  if (!session.accessToken) {
-    return <div>No access token</div>;
-  }
-  // const gmail = new Gmail(env.GOOGLE_ACCESS_KEY, session.accessToken);
-
-  const messages: object[]= []
-
   return (
-    <div>
-      {JSON.stringify(session)}
-      <br />
-      <br />
-      <br />
-      {messages.map((m, i) => {
-        if (m instanceof ZodError) {
-          return <div key={i}>{m.issues.toString()}</div>
-        }
-        return <div key={i}>
-        </div>
-      })}
+    <div className="container">
+      <div className="mx-auto mt-10 max-w-sm">
+        {!session && <SignInBtn className="w-full" variant="outline" />}
+        {session && (
+          <>
+            <div className="flex flex-wrap items-center justify-between gap-5">
+              <div className="flex items-center gap-4">
+                <Avatar>
+                  <AvatarImage src={session.user.image ?? ""} />
+                  <AvatarFallback>
+                    {generateInitials(session.user.name ?? "")}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium leading-none">
+                    {session.user.name}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {session.user.email}
+                  </p>
+                </div>
+              </div>
+              <SignOutBtn variant="outline" />
+            </div>
+          </>
+        )}
+      </div>
+      <Card className="mx-auto mt-5 max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">OpenAI Key</CardTitle>
+          <CardDescription>
+            Your key is not saved in database. It is only stored in your
+            browser.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Input type="email" placeholder="xxxxxxxxxxxxxxxxx" required />
+            </div>
+            <Button type="submit" className="w-full">
+              Classify your mails
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

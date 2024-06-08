@@ -2,8 +2,9 @@
 
 TODO:
 
-- [ ] Make a basic ui (shadcn ui)
-- [ ] Get top x messages from gmail
+- [x] Make a basic ui (shadcn ui)
+- [x] Get top x messages from gmail
 - [ ] Classify them with OpenAI
-- [ ] Display the result
+- [x] Display the result
 - [ ] Make route to display email (parellel routing maybe???)
+- [ ] Display HTML entity characters correctly in snippets
