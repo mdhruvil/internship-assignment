@@ -5,9 +5,9 @@ import Google from "./google";
 import { Button, type ButtonProps } from "./ui/button";
 
 export function SignInBtn(props: ButtonProps) {
-    async function onSignIn(){
-        await signIn("google")
-    }
+  async function onSignIn() {
+    await signIn("google");
+  }
   return (
     <Button onClick={onSignIn} {...props}>
       <Google className="mr-2" />

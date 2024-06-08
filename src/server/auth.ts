@@ -61,7 +61,6 @@ authorizationUrl.searchParams.set("response_type", "code");
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, token }) => {
-
       return {
         ...session,
         user: {
@@ -118,10 +117,10 @@ export const authOptions: NextAuthOptions = {
  */
 export const getServerAuthSession = () => getServerSession(authOptions);
 
-export async function checkAuthOrRedirect(){
+export async function checkAuthOrRedirect() {
   const session = await getServerAuthSession();
   if (!session) {
-    throw redirect("/")
+    throw redirect("/");
   }
-  return session
-} 
+  return session;
+}

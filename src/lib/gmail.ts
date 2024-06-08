@@ -32,7 +32,7 @@ export class Gmail {
     const response = await this.fetchApi<Message>(url);
     const extractedMessage = this.extractMessage(response);
     if (extractedMessage instanceof ZodError) {
-      console.log(extractedMessage.issues)
+      console.log(extractedMessage.issues);
     }
     return extractedMessage;
   }
@@ -54,22 +54,30 @@ export class Gmail {
         default:
           break;
       }
-      
-      
 
     if (message.payload.body.size > 0) {
       const contentType = message.payload.mimeType;
       if (contentType.includes("text/plain")) {
-        bodyText = Buffer.from(message.payload.body.data || "", "base64").toString("utf-8");
+        bodyText = Buffer.from(
+          message.payload.body.data || "",
+          "base64",
+        ).toString("utf-8");
       } else if (contentType.includes("text/html")) {
-        bodyHtml = Buffer.from(message.payload.body.data || "", "base64").toString("utf-8");
+        bodyHtml = Buffer.from(
+          message.payload.body.data || "",
+          "base64",
+        ).toString("utf-8");
       }
     } else if (message.payload.parts) {
       for (const part of message.payload.parts) {
         if (part.mimeType === "text/plain") {
-          bodyText = Buffer.from(part.body.data || "", "base64").toString("utf-8");
+          bodyText = Buffer.from(part.body.data || "", "base64").toString(
+            "utf-8",
+          );
         } else if (part.mimeType === "text/html") {
-          bodyHtml = Buffer.from(part.body.data || "", "base64").toString("utf-8");
+          bodyHtml = Buffer.from(part.body.data || "", "base64").toString(
+            "utf-8",
+          );
         }
       }
     }
@@ -85,7 +93,8 @@ export class Gmail {
       labelIds: message.labelIds,
     };
 
-    const { success, data, error } = extractedMessageSchema.safeParse(messageData);
+    const { success, data, error } =
+      extractedMessageSchema.safeParse(messageData);
 
     return success ? data : error;
   }
