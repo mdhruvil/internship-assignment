@@ -2,6 +2,8 @@
 
 NOTE: please read your twitter(X) dm.  My profile is https://x.com/mdhruvill  
 
+And If you don't select me. Please tell me where I lack and How can I improve.
+
 DEMO: [https://github.com/mdhruvil/slides-ai-assignment/blob/main/demo.webm](https://github.com/mdhruvil/slides-ai-assignment/blob/main/demo.webm)
 
 TODO:
