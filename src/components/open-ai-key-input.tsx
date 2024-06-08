@@ -2,12 +2,15 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { useRouter } from "next/navigation";
 
 export function OpenAIKeyInput() {
   const [apiKey, setApiKey] = useState("");
+  const router = useRouter()
 
   function saveKey() {
     localStorage.setItem("apiKey", apiKey);
+    router.push("/emails");
   }
 
   return (

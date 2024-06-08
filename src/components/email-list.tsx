@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 const EMAIL_NUMBERS = ["2", "5", "10", "15", "20", "25"];
 
 export function EmailList() {
-  const [numberOfEmails, setNumberOfEmails] = useState("2");
+  const [numberOfEmails, setNumberOfEmails] = useState("5");
 
   const { data, isValidating, isLoading, error, mutate } = useEmails({
     query: { numberOfMessages: numberOfEmails },
