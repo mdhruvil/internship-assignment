@@ -51,7 +51,7 @@ How to run locally:
 git clone https://github.com/mdhruvil/slides-ai-assignment
 pnpm install
 
-# MAKE SURE YOU HAVE ALL THE ENV VARS SET
+# MAKE SURE YOU HAVE ALL THE ENV VARS SET READ ALL INSTRUCTIONS IN .env.example
 mv .env.example .env
 pnpm db:push
 pnpm dev
