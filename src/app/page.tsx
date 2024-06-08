@@ -1,7 +1,7 @@
+import { OpenAIKeyInput } from "@/components/open-ai-key-input";
 import { SignInBtn } from "@/components/sign-in-btn";
 import { SignOutBtn } from "@/components/sign-out-btn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { generateInitials } from "@/lib/utils";
 import { getServerAuthSession } from "@/server/auth";
 
@@ -52,14 +51,7 @@ export default async function Page() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Input type="email" placeholder="xxxxxxxxxxxxxxxxx" required />
-            </div>
-            <Button type="submit" className="w-full">
-              Classify your mails
-            </Button>
-          </div>
+          <OpenAIKeyInput />
         </CardContent>
       </Card>
     </div>

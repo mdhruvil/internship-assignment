@@ -12,20 +12,45 @@ import { flushSync } from "react-dom";
 import { EmailCard } from "./email-card";
 import { EmailSkeleton } from "./email-skeleton";
 import { useEmails } from "./hooks/use-emails";
+import { useClassifications } from "./hooks/use-classifications";
+import { Button } from "./ui/button";
+import {
+  getApiKeyFromLocalStorage,
+  getMailsFromLocalStorage,
+} from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
-const EMAIL_NUMBERS = ["5", "10", "15", "20", "25"];
+const EMAIL_NUMBERS = ["2", "5", "10", "15", "20", "25"];
 
 export function EmailList() {
-  const [numberOfEmails, setNumberOfEmails] = useState("10");
+  const [numberOfEmails, setNumberOfEmails] = useState("2");
+
   const { data, isValidating, isLoading, error, mutate } = useEmails({
     query: { numberOfMessages: numberOfEmails },
   });
+  const { trigger } = useClassifications();
+  const router = useRouter();
 
   async function onSelectChange(value: string) {
     flushSync(() => {
       setNumberOfEmails(value);
     });
     await mutate();
+  }
+
+  async function triggerClassify() {
+    const mails = getMailsFromLocalStorage();
+    const apiKey = getApiKeyFromLocalStorage();
+    if (!apiKey) {
+      alert("Please enter your OpenAI API key");
+      return router.push("/");
+    }
+    const data = {
+      messages: mails,
+      apiKey,
+    };
+    //@ts-expect-error idk
+    await trigger({ json: data });
   }
 
   return (
@@ -45,6 +70,7 @@ export function EmailList() {
             })}
           </SelectContent>
         </Select>
+        <Button onClick={triggerClassify}>Classify</Button>
       </div>
 
       {isLoading || isValidating ? (

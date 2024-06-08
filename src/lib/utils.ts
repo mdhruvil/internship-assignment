@@ -17,6 +17,13 @@ export function saveMailsInLocalStorage(emails: ExtractedMessage[]) {
   localStorage.setItem("emails", JSON.stringify(emails));
 }
 
+export function getMailsFromLocalStorage(): ExtractedMessage[] {
+  return JSON.parse(localStorage.getItem("emails") ?? "[]") as ExtractedMessage[];
+}
+export function getApiKeyFromLocalStorage() {
+  return localStorage.getItem("apiKey");
+}
+
 export function getMailFromId(id: string): ExtractedMessage | undefined {
   const emails = JSON.parse(
     localStorage.getItem("emails") ?? "[]",

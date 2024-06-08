@@ -1,6 +1,6 @@
 import { ZodError, z } from "zod";
 
-const extractedMessageSchema = z.object({
+export const extractedMessageSchema = z.object({
   sender: z.string(),
   sentTime: z.string(),
   subject: z.string(),
