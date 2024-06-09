@@ -1,7 +1,7 @@
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { Classification } from "./classifier";
 import type { ExtractedMessage } from "./gmail";
-import { Classification } from "./classifier";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,6 +39,6 @@ export function getClassificationFromId(
 ): Classification | undefined {
   const classifications = JSON.parse(
     localStorage.getItem("classifications") ?? "[]",
-  ) as Classification[];
+  ) as (Classification & { id: string })[];
   return classifications.find((classification) => classification.id === id);
 }

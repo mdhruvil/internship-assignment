@@ -73,7 +73,6 @@ const classifierRouter = new Hono<{ Variables: Variables }>().post(
     const classifications = await Promise.all(
       messages.map((m) => classifier.classify(m)),
     );
-    console.log(classifications);
     const messagesWithClassifications = messages.map((m, i) => ({
       ...m,
       classification: classifications[i],

@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
+import { getApiKeyFromLocalStorage } from "@/lib/utils";
 
 export function GeminiKeyInput() {
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState(getApiKeyFromLocalStorage() ?? "");
   const router = useRouter()
 
   function saveKey() {

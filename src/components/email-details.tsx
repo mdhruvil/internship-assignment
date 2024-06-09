@@ -1,5 +1,5 @@
 "use client";
-import { getMailFromId } from "@/lib/utils";
+import { getClassificationFromId, getMailFromId } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import useSWR from "swr";
 import { CardDescription, CardHeader, CardTitle } from "./ui/card";
@@ -9,8 +9,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./ui/sheet";
+import { Badge } from "./ui/badge";
+import InfoButton from "./ui/info-button";
 
 export function EmailDetails({ id }: { id: string }) {
+  const classification = getClassificationFromId(id);
   const { data: email } = useSWR("/local/" + id, () => {
     return getMailFromId(id);
   });
@@ -28,6 +31,15 @@ export function EmailDetails({ id }: { id: string }) {
                   {formatDistanceToNow(email.sentTime, { addSuffix: true })}
                 </p>
               </div>
+              {classification ? (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <Badge>{classification.classification}</Badge>
+                  <Badge variant="outline">
+                    {classification.confidence} / 1.0
+                  </Badge>
+                  <p className="text-xs">Reason: {classification.reason}</p>
+                </div>
+              ) : null}
               <div className="mt-5 h-full">
                 {email.bodyHtml && (
                   <iframe
@@ -45,6 +57,8 @@ export function EmailDetails({ id }: { id: string }) {
 }
 
 export function EmailDetailsCard({ id }: { id: string }) {
+  const classification = getClassificationFromId(id);
+
   const { data: email } = useSWR("/local/" + id, () => {
     return getMailFromId(id);
   });
@@ -62,6 +76,15 @@ export function EmailDetailsCard({ id }: { id: string }) {
                   {formatDistanceToNow(email.sentTime, { addSuffix: true })}
                 </p>
               </div>
+              {classification ? (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <Badge>{classification.classification}</Badge>
+                  <Badge variant="outline">
+                    {classification.confidence} / 1.0
+                  </Badge>
+                  <p className="text-xs">Reason: {classification.reason}</p>
+                </div>
+              ) : null}
               <div className="mt-5 h-full">
                 {email.bodyHtml && (
                   <iframe
