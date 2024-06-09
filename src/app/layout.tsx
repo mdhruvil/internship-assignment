@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
@@ -27,6 +28,7 @@ export default function RootLayout({
         >
           {sheet}
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

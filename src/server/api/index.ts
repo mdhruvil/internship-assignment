@@ -46,7 +46,6 @@ const emailRouter = new Hono<{ Variables: Variables }>().get(
   async (c) => {
     const session = c.get("session");
     const { numberOfMessages } = c.req.valid("query");
-
     const gmail = new Gmail(env.GOOGLE_ACCESS_KEY, session.accessToken!);
     const emails = await gmail.getLastMessages(numberOfMessages);
 

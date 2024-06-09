@@ -2,6 +2,7 @@
 import { getClassificationFromId, getMailFromId } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import useSWR from "swr";
+import { Badge } from "./ui/badge";
 import { CardDescription, CardHeader, CardTitle } from "./ui/card";
 import {
   SheetContent,
@@ -9,8 +10,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./ui/sheet";
-import { Badge } from "./ui/badge";
-import InfoButton from "./ui/info-button";
 
 export function EmailDetails({ id }: { id: string }) {
   const classification = getClassificationFromId(id);
