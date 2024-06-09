@@ -2,6 +2,8 @@
 
 ### **DEMO**: [https://youtu.be/rer3ePVRg_4](https://youtu.be/rer3ePVRg_4)
 
+NOTE: If it says unauthorized after sometime, just sign out and sign in again. Refresh token will be updated.
+
 If you don't select me. Please tell me where I lack and How can I improve.
 
 ## How it works
@@ -57,6 +59,7 @@ TODO:
 - [x] Classify them with Gemini
 - [x] Display the result
 - [x] Make route to display email (parellel routing)
+- [ ] Automatically refresh token
 
 ## Tech stack
 
