@@ -86,7 +86,7 @@ export function EmailList() {
       {error ? (
         <div>
           Error: {error.message} <br />{" "}
-          {error.message === "Unauthorized"
+          {error.message === "401 Unauthorized"
             ? "NOTE: If it says unauthorized after sometime, just sign out and sign in again. Refresh token will be updated."
             : ""}
         </div>
