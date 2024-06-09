@@ -55,7 +55,7 @@ export function EmailList() {
 
   return (
     <div>
-      <div className="pb-5 flex justify-between flex-wrap gap-3">
+      <div className="flex flex-wrap justify-between gap-3 pb-5">
         <Select onValueChange={onSelectChange} value={numberOfEmails}>
           <SelectTrigger className="max-w-[150px]">
             <SelectValue placeholder={numberOfEmails} />
@@ -70,7 +70,9 @@ export function EmailList() {
             })}
           </SelectContent>
         </Select>
-        <Button onClick={triggerClassify} loading={isMutating}>Classify</Button>
+        <Button onClick={triggerClassify} loading={isMutating}>
+          Classify
+        </Button>
       </div>
 
       {isLoading || isValidating ? (
@@ -81,7 +83,14 @@ export function EmailList() {
         </div>
       ) : null}
 
-      {error ? <div>Error: {error.message}</div> : null}
+      {error ? (
+        <div>
+          Error: {error.message} <br />{" "}
+          {error.message === "Unauthorized"
+            ? "NOTE: If it says unauthorized after sometime, just sign out and sign in again. Refresh token will be updated."
+            : ""}
+        </div>
+      ) : null}
 
       {data && !isValidating && !isLoading ? (
         <div className="space-y-5">
