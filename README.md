@@ -1,4 +1,4 @@
-# Assignment for slidesai.io internship
+# Assignment for internship
 
 ### **DEMO**: [https://youtu.be/rer3ePVRg_4](https://youtu.be/rer3ePVRg_4)
 
